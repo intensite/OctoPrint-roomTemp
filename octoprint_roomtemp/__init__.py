@@ -49,25 +49,31 @@ class RoomTempPlugin(octoprint.plugin.StartupPlugin,
 		self._checkTempTimer.start()
 
 	def checkRoomTemp(self):
-		os.system('modprobe w1-gpio')
-		os.system('modprobe w1-therm')
-		base_dir = '/sys/bus/w1/devices/'
-		device_folder = glob.glob(base_dir + '28*')[0]
-		device_file = device_folder + '/w1_slave'
-		if os.path.isfile(device_file):
-			lines = read_temp_raw(device_file)
-			while lines[0].strip()[-3:] != 'YES':
-				time.sleep(0.2)
-				lines = read_temp_raw(device_file)
-			equals_pos = lines[1].find('t=')
-			if equals_pos != -1:
-				temp_string = lines[1][equals_pos+2:]
-				temp_c = float(temp_string) / 1000.0
-				p = '{0:0.1f}'.format(temp_c)
-
+			#os.system('modprobe w1-gpio')
+			#os.system('modprobe w1-therm')
+			#base_dir = '/sys/bus/w1/devices/'
+			#device_folder = glob.glob(base_dir + '28*')[0]
+			#device_file = device_folder + '/w1_slave'
+			#if os.path.isfile(device_file):
+			#       lines = read_temp_raw(device_file)
+			#       while lines[0].strip()[-3:] != 'YES':
+			#               time.sleep(0.2)
+			#               lines = read_temp_raw(device_file)
+			#       equals_pos = lines[1].find('t=')
+			#       if equals_pos != -1:
+			#               temp_string = lines[1][equals_pos+2:]
+			#               temp_c = float(temp_string) / 1000.0
+			#               p = '{0:0.1f}'.format(temp_c)
+			#else:
+			#       self._logger.info("No file temperature found !!")
+			
+			#####################################################################
+			# S.Remillard (2017-06-06)
+			# Replace the code above to use Raspberry Pi's internal CPU Temp
+			res = os.popen('vcgencmd measure_temp').readline()
+			temp =(res.replace("temp=","").replace("'C\n",""))
+			p = temp
 			self._plugin_manager.send_plugin_message(self._identifier, dict(israspi=self.isRaspi, roomtemp=p))
-		else:
-			self._logger.info("No file temperature found !!")
 
 	##~~ SettingsPlugin
 	def get_settings_defaults(self):
