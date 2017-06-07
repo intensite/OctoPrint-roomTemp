@@ -23,7 +23,8 @@ $(function() {
                 self.isRaspi(true);
             }
 
-            self.roomTemp(_.sprintf("Room: %.1f&deg;c", data.roomtemp));
+            self.roomTemp(_.sprintf("Control Box: %.1f&deg;c", data.roomtemp));
+            
         };
     }
 
