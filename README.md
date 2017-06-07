@@ -1,7 +1,9 @@
 
 # Plugin that displays room temperature on navbar
-Original Based on OctoPrint-NavbarTemp by imrahil (https://github.com/imrahil/OctoPrint-NavbarTemp)
 Forked from l00ma/OctoPrint-roomTemp (https://github.com/l00ma/OctoPrint-roomTemp)
+
+Which was Originally Based on OctoPrint-NavbarTemp by imrahil (https://github.com/imrahil/OctoPrint-NavbarTemp)
+
 
 This modified plugin now uses the Raspberry Pi's internal CPU temperature sensor and display its temperature on the navbar
 ~~This plugin displays room temperature on navbar via a ds18b20 sensor connected to pin n°4 of your raspberry Pi~~
